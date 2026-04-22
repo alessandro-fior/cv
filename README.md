@@ -2,8 +2,10 @@
 
 Cartella organizzata in due progetti separati:
 
+- `static`: CV in HTML/CSS puro
 - `readonly`: CV in PHP che legge i dati da `data/cv.sqlite`
 - `admin`: CV in PHP con pannello `admin.php` per gestire skill, aziende ed esperienze
+- `python-simple`: CV in Python con server leggero e SQLite
 
 Database SQLite:
 
