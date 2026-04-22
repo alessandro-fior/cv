@@ -41,8 +41,38 @@ def render_cv() -> str:
     def esc(value: object) -> str:
         return html.escape("" if value is None else str(value))
 
-    def render_list(items: list[sqlite3.Row], template: str) -> str:
-        return "\n".join(template.format(item=item, esc=esc) for item in items)
+    contacts_html = "\n".join(
+        f'<li><span class="label">{esc(item["label"])}:</span> {esc(item["value"])}</li>'
+        for item in contacts
+    )
+    languages_html = "\n".join(
+        f'<li>{esc(item["name"])}: {esc(item["level"])}</li>'
+        for item in languages
+    )
+    availability_html = "\n".join(
+        f'<li>{esc(item["description"])}</li>'
+        for item in availability
+    )
+    skills_html = "\n".join(
+        f'<li>{esc(item["name"])}</li>'
+        for item in skills
+    )
+    experiences_html = "".join(
+        f'''
+        <article class="experience-item">
+          <h3>{esc(item["role"])}</h3>
+          <p class="experience-meta"><strong>{esc(item["company_name"])}</strong>, {esc(item["location"])} - <span class="date-range">{esc(item["start_label"])} - {esc(item["end_label"])}</span></p>
+        </article>'''
+        for item in experiences
+    )
+    education_html = "".join(
+        f'''
+        <article class="education-item">
+          <h3>{esc(item["title"])}</h3>
+          <p>{esc(item["institution"])} | {esc(item["year_label"])}</p>
+        </article>'''
+        for item in education
+    )
 
     return f"""<!DOCTYPE html>
 <html lang="it">
@@ -67,28 +97,28 @@ def render_cv() -> str:
       <section class="side-section">
         <h2 class="section-title">Contatti</h2>
         <ul class="contact-list">
-          {render_list(contacts, '<li><span class="label">{esc(item["label"])}:</span> {esc(item["value"])}</li>')}
+          {contacts_html}
         </ul>
       </section>
 
       <section class="side-section">
         <h2 class="section-title">Lingue</h2>
         <ul class="simple-list">
-          {render_list(languages, '<li>{esc(item["name"])}: {esc(item["level"])}</li>')}
+          {languages_html}
         </ul>
       </section>
 
       <section class="side-section">
         <h2 class="section-title">Disponibilita'</h2>
         <ul class="bullet-list">
-          {render_list(availability, '<li>{esc(item["description"])}</li>')}
+          {availability_html}
         </ul>
       </section>
 
       <section class="side-section">
         <h2 class="section-title">Competenze</h2>
         <ul class="bullet-list compact">
-          {render_list(skills, '<li>{esc(item["name"])}</li>')}
+          {skills_html}
         </ul>
       </section>
     </aside>
@@ -108,26 +138,12 @@ def render_cv() -> str:
 
       <section class="content-section">
         <h2 class="section-title">Esperienze Lavorative</h2>
-        {"".join(
-            f'''
-        <article class="experience-item">
-          <h3>{esc(item["role"])}</h3>
-          <p class="experience-meta"><strong>{esc(item["company_name"])}</strong>, {esc(item["location"])} - <span class="date-range">{esc(item["start_label"])} - {esc(item["end_label"])}</span></p>
-        </article>'''
-            for item in experiences
-        )}
+        {experiences_html}
       </section>
 
       <section class="content-section education-section">
         <h2 class="section-title">Formazione</h2>
-        {"".join(
-            f'''
-        <article class="education-item">
-          <h3>{esc(item["title"])}</h3>
-          <p>{esc(item["institution"])} | {esc(item["year_label"])}</p>
-        </article>'''
-            for item in education
-        )}
+        {education_html}
       </section>
 
       <footer class="footer">
