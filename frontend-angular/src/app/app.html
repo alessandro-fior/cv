@@ -1,0 +1,221 @@
+<div class="page-shell">
+  <div class="ambient ambient-left"></div>
+  <div class="ambient ambient-right"></div>
+
+  <main class="resume-layout">
+    <aside class="sidebar">
+      <section class="profile-card">
+        <div class="profile-photo-ring">
+          <img
+            class="profile-photo"
+            [src]="cv.profileImagePath"
+            [alt]="'Foto profilo di ' + cv.name"
+          />
+        </div>
+
+        <p class="eyebrow">Frontend Angular demo</p>
+        <h2 class="profile-name">{{ cv.name }}</h2>
+        <p class="profile-role">{{ cv.title }}</p>
+        <p class="profile-location">{{ cv.location }}</p>
+
+        <div class="badge-row">
+          @for (badge of demoBadges; track badge) {
+            <span class="badge">{{ badge }}</span>
+          }
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <p class="section-kicker">Contatti</p>
+          <h2>Riferimenti</h2>
+        </div>
+
+        <ul class="detail-list">
+          @for (contact of cv.contacts; track contact.label) {
+            <li>
+              <span>{{ contact.label }}</span>
+              @if (contact.href) {
+                <a [href]="contact.href">{{ contact.value }}</a>
+              } @else {
+                <strong>{{ contact.value }}</strong>
+              }
+            </li>
+          }
+        </ul>
+      </section>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <p class="section-kicker">Lingue</p>
+          <h2>Competenze trasversali</h2>
+        </div>
+
+        <ul class="tag-list">
+          @for (language of cv.languages; track language) {
+            <li>{{ language }}</li>
+          }
+        </ul>
+      </section>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <p class="section-kicker">Disponibilita</p>
+          <h2>Modalita di lavoro</h2>
+        </div>
+
+        <p class="panel-copy">{{ cv.availability }}</p>
+      </section>
+    </aside>
+
+    <section class="content-column">
+      <section class="surface hero-card">
+        <div class="hero-copy">
+          <p class="eyebrow">Curriculum vitae</p>
+          <h1>{{ cv.name }}</h1>
+          <p class="hero-role">{{ cv.title }}</p>
+          <p class="hero-summary">{{ cv.summary }}</p>
+
+          <div class="action-row">
+            @for (action of cv.primaryActions; track action.label) {
+              <a class="action-link action-link-primary" [href]="action.href">
+                {{ action.label }}
+              </a>
+            }
+
+            <a class="action-link action-link-secondary" href="#esperienze">
+              Vai alle esperienze
+            </a>
+          </div>
+        </div>
+
+        <div class="stats-grid" aria-label="Statistiche profilo">
+          <article class="stat-card">
+            <span class="stat-value">{{ careerYears }}+</span>
+            <span class="stat-label">anni di esperienza</span>
+          </article>
+          <article class="stat-card">
+            <span class="stat-value">{{ experienceCount }}</span>
+            <span class="stat-label">esperienze principali</span>
+          </article>
+          <article class="stat-card">
+            <span class="stat-value">{{ totalSkills }}</span>
+            <span class="stat-label">skill censite</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="surface">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Competenze</p>
+            <h2>Stack tecnico</h2>
+          </div>
+
+          <div class="search-box">
+            <label for="skill-search">Cerca una skill</label>
+            <input
+              id="skill-search"
+              type="search"
+              placeholder="Es. PHP, frontend, database..."
+              [ngModel]="skillQuery()"
+              (ngModelChange)="skillQuery.set($event)"
+            />
+          </div>
+        </div>
+
+        <div class="skills-meta">
+          <span>{{ filteredSkills().length }} risultati visibili</span>
+          @if (skillQuery()) {
+            <button type="button" class="clear-filter" (click)="skillQuery.set('')">
+              Azzera filtro
+            </button>
+          }
+        </div>
+
+        @if (filteredSkills().length) {
+          <div class="skill-grid">
+            @for (skill of filteredSkills(); track skill.name) {
+              <article class="skill-chip">
+                <strong>{{ skill.name }}</strong>
+                <span>{{ skill.category }}</span>
+              </article>
+            }
+          </div>
+        } @else {
+          <p class="empty-state">
+            Nessuna skill trovata per "{{ skillQuery() }}".
+          </p>
+        }
+      </section>
+
+      <section class="surface" id="esperienze">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Esperienze</p>
+            <h2>Percorso professionale</h2>
+          </div>
+        </div>
+
+        <div class="timeline">
+          @for (experience of cv.experiences; track experience.company + experience.period) {
+            <article class="timeline-item">
+              <div class="timeline-bullet" aria-hidden="true"></div>
+              <div class="timeline-card">
+                <p class="timeline-period">{{ experience.period }}</p>
+                <h3>{{ experience.role }}</h3>
+                <p class="timeline-company">{{ experience.company }}</p>
+                <p class="timeline-location">{{ experience.location }}</p>
+                <p class="timeline-summary">{{ experience.summary }}</p>
+              </div>
+            </article>
+          }
+        </div>
+      </section>
+
+      <div class="split-grid">
+        <section class="surface">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">Formazione</p>
+              <h2>Studi</h2>
+            </div>
+          </div>
+
+          <div class="mini-grid">
+            @for (item of cv.education; track item.title) {
+              <article class="mini-card">
+                <p class="mini-period">{{ item.period }}</p>
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.place }}</p>
+              </article>
+            }
+          </div>
+        </section>
+
+        <section class="surface">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">Punti di forza</p>
+              <h2>Approccio al lavoro</h2>
+            </div>
+          </div>
+
+          <ul class="strength-list">
+            @for (strength of cv.strengths; track strength) {
+              <li>{{ strength }}</li>
+            }
+          </ul>
+        </section>
+      </div>
+
+      <footer class="surface footer-card">
+        <p class="footer-copy">{{ cv.privacyNote }}</p>
+        <div class="signature-row">
+          <span>{{ cv.signatureCity }}, {{ cv.signatureDate }}</span>
+          <span>{{ cv.name }}</span>
+        </div>
+      </footer>
+    </section>
+  </main>
+</div>

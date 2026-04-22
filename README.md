@@ -1,69 +1,49 @@
 # CV Projects
 
-Cartella organizzata in due progetti separati:
+Repository con piu' versioni del CV:
 
 - `static`: CV in HTML/CSS puro
-- `readonly`: CV in PHP che legge i dati da `data/cv.sqlite`
+- `readonly`: CV in PHP che legge dati da SQLite
 - `admin`: CV in PHP con pannello `admin.php` per gestire skill, aziende ed esperienze
 - `python-simple`: CV in Python con server leggero e SQLite
 
-Programmi installati:
+Percorsi progetto:
 
-- PHP 8.3 in `C:\tools\php83\php.exe`
-- DB Browser for SQLite in `C:\Program Files\DB Browser for SQLite\DB Browser for SQLite.exe`
-- SQLiteStudio in `C:\Program Files\SQLiteStudio\SQLiteStudio.exe`
+- `C:\cv\cv\static`
+- `C:\cv\cv\readonly`
+- `C:\cv\cv\admin`
+- `C:\cv\cv\python-simple`
 
 Database SQLite:
 
-- `C:\cv\readonly\data\cv.sqlite`
-- `C:\cv\admin\data\cv.sqlite`
+- file sorgente nel repository:
+  - `C:\cv\cv\readonly\data\cv.sqlite`
+  - `C:\cv\cv\admin\data\cv.sqlite`
+  - `C:\cv\cv\python-simple\data\cv.sqlite`
+- copia runtime scrivibile generata automaticamente dai progetti PHP:
+  - `%LOCALAPPDATA%\cv-projects\readonly\cv.sqlite`
+  - `%LOCALAPPDATA%\cv-projects\admin\cv.sqlite`
 
-Per gestire il database con un tool esterno puoi usare:
+Prerequisiti PHP:
 
-- DB Browser for SQLite
-- SQLiteStudio
+- `pdo_sqlite` abilitato
+- `sqlite3` abilitato
 
-Per avviare i progetti con PHP, quando hai `php.exe` disponibile:
+Per avviare i progetti PHP:
 
 ```powershell
-cd C:\cv\readonly
+cd C:\cv\cv\readonly
 php -S localhost:8000
 ```
 
 ```powershell
-cd C:\cv\admin
+cd C:\cv\cv\admin
 php -S localhost:8001
 ```
-
-In alternativa puoi usare direttamente:
-
-- `C:\cv\start-readonly-php.bat`
-- `C:\cv\start-admin-php.bat`
 
 URL:
 
 - `readonly`: http://127.0.0.1:8000
 - `admin`: http://127.0.0.1:8001
 
-Come modificare il database:
-
-1. Apri `DB Browser for SQLite` oppure `SQLiteStudio`
-2. Apri uno di questi file:
-   `C:\cv\readonly\data\cv.sqlite`
-   `C:\cv\admin\data\cv.sqlite`
-   `C:\cv\python-simple\data\cv.sqlite`
-3. Vai nella tabella che ti interessa:
-   `skills` per le competenze
-   `companies` per le aziende
-   `experiences` per le esperienze lavorative
-   `profile` per nome, titolo, testo profilo, firma
-4. Modifica o inserisci le righe
-5. Salva le modifiche
-6. Ricarica la pagina del progetto nel browser
-
-Nota:
-
-- `experiences.company_id` deve puntare all`id` della tabella `companies`
-- il campo `sort_order` controlla l'ordine di visualizzazione
-- se il comando `php` non viene riconosciuto in un terminale gia' aperto, chiudi e riapri il prompt
-"# cv" 
+Se il comando `php` non viene riconosciuto in un terminale gia' aperto, chiudi e riapri la shell.

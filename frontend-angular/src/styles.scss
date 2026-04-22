@@ -1,0 +1,34 @@
+:root {
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+  color: #17302d;
+  background:
+    radial-gradient(circle at top left, rgba(236, 138, 74, 0.18), transparent 24%),
+    radial-gradient(circle at 82% 12%, rgba(31, 122, 101, 0.22), transparent 26%),
+    linear-gradient(160deg, #fcf7ef 0%, #eef4ee 44%, #f6efe5 100%);
+}
+
+body::selection {
+  background: rgba(31, 122, 101, 0.18);
+}
+
+a,
+button,
+input {
+  font: inherit;
+}
